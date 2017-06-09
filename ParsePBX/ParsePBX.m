@@ -33,26 +33,6 @@
     return [px parsePBXFile:path];
 }
 
-- (void)getPropertys{
-    NSString *rootObjectID = rootDic[@"rootObject"];
-    
-    NSDictionary *objects = rootDic[@"objects"];
-    NSDictionary *rootObject = objects[rootObjectID];
-    NSString *targetID = rootObject[@"targets"][0];
-    NSDictionary *target = objects[targetID];
-    NSString *buildConfigurationListID = target[@"buildConfigurationList"];
-    NSString *productName = target[@"productName"];
-    NSString *targetName = target[@"name"];
-    NSArray *buildConfigurations = objects[buildConfigurationListID][@"buildConfigurations"];
-    
-    [buildConfigurations enumerateObjectsUsingBlock:^(NSString  *configurationID, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSDictionary *configuration = objects[configurationID];
-        NSDictionary *buildSettings = configuration[@"buildSettings"];
-        NSString *infopath = buildSettings[@"INFOPLIST_FILE"];
-        NSString *configurationName = configuration[@"name"];
-        NSLog(@"%@",configuration);
-    }];
-}
 
 
 - (NSDictionary *)parsePBXFile:(NSString *)path{
