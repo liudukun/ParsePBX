@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E35141F51EDFA951000E57A3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E35141F41EDFA951000E57A3 /* main.m */; };
+		E35141FD1EDFFC87000E57A3 /* ParsePBX.m in Sources */ = {isa = PBXBuildFile; fileRef = E35141FC1EDFFC87000E57A3 /* ParsePBX.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		E35141F11EDFA951000E57A3 /* ParsePBX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ParsePBX; sourceTree = BUILT_PRODUCTS_DIR; };
 		E35141F41EDFA951000E57A3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E35141FB1EDFFC87000E57A3 /* ParsePBX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParsePBX.h; sourceTree = "<group>"; };
+		E35141FC1EDFFC87000E57A3 /* ParsePBX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParsePBX.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				E35141F41EDFA951000E57A3 /* main.m */,
+				E35141FB1EDFFC87000E57A3 /* ParsePBX.h */,
+				E35141FC1EDFFC87000E57A3 /* ParsePBX.m */,
 			);
 			path = ParsePBX;
 			sourceTree = "<group>";
@@ -120,6 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E35141FD1EDFFC87000E57A3 /* ParsePBX.m in Sources */,
 				E35141F51EDFA951000E57A3 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -251,6 +257,7 @@
 				E35141FA1EDFA951000E57A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

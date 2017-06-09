@@ -7,11 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ParsePBX.h"
+
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // insert code here...
-        NSLog(@"Hello, World!");
+        [ParsePBX parsePBXFile:@"/Users/liudukun/Documents/ZJYMProject/ZJHTCarOwner.xcodeproj/project.pbxproj"];
     }
     return 0;
 }
+
+
+
+
+
