@@ -36,14 +36,13 @@
 
 
 - (NSDictionary *)parsePBXFile:(NSString *)path{
-    pbx = [NSString stringWithContentsOfFile:path usedEncoding:0 error:nil];
     
+    pbx = [NSString stringWithContentsOfFile:path usedEncoding:0 error:nil];
     pbx = [pbx stringByReplacingOccurrencesOfString:@"/\\*[^\\*/)]*\\*/" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, pbx.length)];
     pbx = [pbx stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     pbx = [pbx stringByReplacingOccurrencesOfString:@"\t" withString:@""];
     pbx = [pbx stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-    pbx = [pbx stringByReplacingOccurrencesOfString:@" " withString:@""];
-    pbx = [pbx stringByReplacingOccurrencesOfString:@"//!$*UTF8*$!{" withString:@"root"];
+    pbx = [pbx stringByReplacingOccurrencesOfString:@"// !$*UTF8*$!{" withString:@""];
     pbx = [pbx stringByAppendingString:@";"];
     //    NSLog(@"%@",pbx);
     
@@ -99,7 +98,7 @@
         if ([rs isEqualToString:@";"]&&arrCount ==0 && dicCount ==0) {
             end = roll;
             NSString *sub = [string substringWithRange:NSMakeRange(head, end - head+1)];
-            NSLog(@"%@",sub);
+//            NSLog(@"%@",sub);
             [self subParse:sub parent:parent type:type];
             
             type = 0;
@@ -112,10 +111,12 @@
 }
 
 - (void)subParse:(NSString *)nodeString parent:(id)parent type:(int)type{
-    
-    if (type == 1) {
+
+    if (type == 1) {// dic
         NSRange rangeE = [nodeString rangeOfString:@"="];
         NSString *name = [nodeString substringToIndex:rangeE.location];
+        name = [self stringRemoveWhitespace:name];
+
         NSRange rangeL = [nodeString rangeOfString:@"{"];
         NSString *valueString = [nodeString substringWithRange:NSMakeRange(rangeL.location + 1, nodeString.length - rangeL.location - 3)];
         NSMutableDictionary *tmp = [NSMutableDictionary dictionary];
@@ -124,30 +125,42 @@
             [self startParse:valueString parent:tmp];
         }
         
-    }else if (type == 2) {
+    }else if (type == 2) {//arr
         
         NSRange rangeE = [nodeString rangeOfString:@"="];
         NSString *name = [nodeString substringToIndex:rangeE.location];
+        name = [self stringRemoveWhitespace:name];
         NSRange rangeL = [nodeString rangeOfString:@"("];
         NSString *valueString = [nodeString substringWithRange:NSMakeRange(rangeL.location +1, nodeString.length - rangeL.location - 3)];
         NSArray *values = [valueString componentsSeparatedByString:@","];
-        NSMutableArray *valuesM  = [NSMutableArray arrayWithArray:values];
+        NSMutableArray *valuesM  = [NSMutableArray array];
         [values enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj isEqualToString:@""]) {
                 [valuesM removeObject:obj];
+            }else{
+                obj = [self stringRemoveWhitespace:obj];
+                [valuesM addObject:obj];
             }
+            
         }];
         [parent setObject:valuesM forKey:name];
         
-    }else{
+    }else{//kv
         nodeString = [nodeString substringWithRange:NSMakeRange(0, nodeString.length -1)];
         NSArray *kv = [nodeString componentsSeparatedByString:@"="];
         NSString *v = [kv lastObject];
         NSString *k = [kv firstObject];
+
+        k = [self stringRemoveWhitespace:k];
+        v = [self stringRemoveWhitespace:v];
         [parent setObject:v forKey:k];
     }
     
     
+}
+
+- (NSString *)stringRemoveWhitespace:(NSString *)string{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (BOOL)needParse:(NSString *)string{
